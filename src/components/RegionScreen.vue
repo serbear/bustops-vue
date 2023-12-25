@@ -1,34 +1,76 @@
 <script setup>
+import IconSearch from "@/components/icons/IconSearch.vue";
+import Dropdown from "@/components/dropdown.vue";
+import { onMounted, ref } from "vue";
+import IconInfo from "@/components/icons/IconInfo.vue";
 
-const emit = defineEmits(["foundRegionNameChanged"])
+const emit = defineEmits(["foundRegionNameChanged"]);
 
-function SearchRegion(){
+const regionList = ref([
+  "Region 1",
+  "Region 2",
+  "Region 3",
+  "Region 4",
+  "Region 5",
+  "Region 6",
+  "Region 7",
+  "Region 8",
+  "Region 9",
+  "Region 10",
+  "Region 11",
+  "Region 12",
+  "Region 13",
+  "Region 14",
+]);
+
+onMounted(() => {
+  // GetAllRegions().then((response) => {
+  //   availableRegionList.value = response;
+  //   allRegionList.value = response;
+  // });
+});
+
+function SearchRegion() {
   emit("foundRegionNameChanged", "region-name");
 }
-
 </script>
 
 <template>
+  <dropdown inputBoxId="region_name" :list-data="regionList" />
   <div class="bg-bear-cyan-500">
-    <p class="font-lato text-sm text-bear-cyan-1500">
+    <p class="font-lato text-sm text-bear-cyan-1500 p-3.5">
       Enter the name of the region or select a region from the list, please.
     </p>
 
-<!--    <button-->
-<!--        type="button"-->
-<!--        @click="SearchRegion"-->
-<!--        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4-->
-<!--        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5-->
-<!--        me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700-->
-<!--        focus:outline-none dark:focus:ring-blue-800"-->
-<!--    >-->
-<!--      Search Region-->
-<!--    </button>-->
+    <input
+      id="region_name"
+      class="h-9 text-sm text-bear-slate-900 bg-bear-slate-200 border-0 focus:ring-0 w-full p-3.5"
+      data-dropdown-offset-distance="0"
+      data-dropdown-placement="bottom"
+      data-dropdown-toggle="dropdownList"
+      placeholder="Region Name"
+      required
+      type="text"
+    />
+    <!--v-model="selectedRegionName"-->
+    <!-- @focusin="SearchInputBoxOnFocus"-->
+    <p
+      class="font-lato text-sm text-bear-cyan-1500 p-3.5 flex items-center justify-end gap-x-1"
+    >
+      <IconInfo />
+      Total found regions: XXX
+    </p>
 
+    <div class="grid grid-cols-1 gap-0">
+      <button
+        class="pr-5 hover:bg-bear-cyan-800 hover:text-bear-slate-200 font-bold font-lato text-base focus:outline-none h-14 w-full inline-flex items-center justify-center"
+        type="button"
+        @click=""
+      >
+        <IconSearch class="px-1" />
+        Search
+      </button>
+      <!-- @click="SearchRegion"-->
+    </div>
   </div>
-
 </template>
-
-<style scoped>
-
-</style>
