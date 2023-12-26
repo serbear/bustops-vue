@@ -4,6 +4,7 @@ import { initDropdowns } from "flowbite";
 const props = defineProps({
   inputBoxId: String,
   listData: Array,
+  elementStyle: Object,
 });
 
 // initialize components based on data attribute selectors
@@ -32,13 +33,19 @@ function dropClicked() {
   <!-- Dropdown menu -->
   <div
     id="dropdownList"
-    class="z-10 hidden rounded-none w-96 bg-white text-bear-slate-900"
+    class="z-10 hidden rounded-none w-96 bg-white"
+    :class="props.elementStyle.text.inputBox"
   >
     <ul class="h-72 overflow-y-auto" aria-labelledby="{{props.inputBoxId}}">
       <li v-for="item in props.listData" :key="item">
         <a
           href="#"
-          class="flex text-sm items-center px-3.5 py-2 text-bear-cyan-1500 hover:bg-bear-cyan-800 hover:text-bear-slate-200"
+          class="flex text-sm items-center px-3.5 py-2"
+          :class="[
+            props.elementStyle.text.listItem.normal,
+            props.elementStyle.text.listItem.hover,
+            props.elementStyle.background.listItem.hover,
+          ]"
         >
           {{ item }}
         </a>
