@@ -3,6 +3,7 @@ import IconSearch from "@/components/icons/IconSearch.vue";
 import Dropdown from "@/components/dropdown.vue";
 import { onMounted, ref } from "vue";
 import IconInfo from "@/components/icons/IconInfo.vue";
+import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 
 const emit = defineEmits(["foundRegionNameChanged"]);
 
@@ -54,12 +55,8 @@ function SearchRegion() {
     />
     <!--v-model="selectedRegionName"-->
     <!-- @focusin="SearchInputBoxOnFocus"-->
-    <p
-      class="font-lato text-sm text-bear-cyan-1500 p-3.5 flex items-center justify-end gap-x-1"
-    >
-      <IconInfo />
-      Total found regions: XXX
-    </p>
+
+    <InfoTotalNumber count-object="regions" amount="-999" />
 
     <div class="grid grid-cols-1 gap-0">
       <button
