@@ -2,7 +2,6 @@
 import IconSearch from "@/components/icons/IconSearch.vue";
 import Dropdown from "@/components/dropdown.vue";
 import { onMounted, ref } from "vue";
-import IconInfo from "@/components/icons/IconInfo.vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 
 const emit = defineEmits(["foundRegionNameChanged"]);
