@@ -3,14 +3,20 @@ import IconSearch from "@/components/icons/IconSearch.vue";
 import DropdownList from "@/components/DropdownList.vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 import { elementStyles } from "@/ui/regionScreen.js";
+import { ref } from "vue";
 
-const emit = defineEmits(["foundRegionNameChanged"]);
+const emit = defineEmits(["regionNameChanged"]);
 const props = defineProps({
   regions: Array,
 });
+let regionName = ref(null);
 
 function SearchRegion() {
-  emit("foundRegionNameChanged", "region-name");
+  emit("regionNameChanged", regionName.value);
+}
+
+function setRegionName(value) {
+  regionName.value = value;
 }
 </script>
 
@@ -19,6 +25,7 @@ function SearchRegion() {
     inputBoxId="region_name"
     :list-data="props.regions"
     :element-style="elementStyles"
+    @item-select-action="setRegionName"
   />
   <!--  <div class="bg-bear-cyan-500">-->
   <div :class="elementStyles.background.screen">
@@ -33,12 +40,11 @@ function SearchRegion() {
       data-dropdown-offset-distance="0"
       data-dropdown-placement="bottom"
       data-dropdown-toggle="dropdownList"
-      placeholder="Region Name"
+      placeholder=""
       required
       type="text"
+      v-model="regionName"
     />
-    <!--v-model="selectedRegionName"-->
-    <!-- @focusin="SearchInputBoxOnFocus"-->
 
     <InfoTotalNumber count-object="regions" amount="-999" />
 
@@ -50,12 +56,11 @@ function SearchRegion() {
           elementStyles.text.searchButton.hover,
         ]"
         type="button"
-        @click=""
+        @click="SearchRegion"
       >
         <IconSearch class="px-1" />
         Search
       </button>
-      <!-- @click="SearchRegion"-->
     </div>
   </div>
 </template>

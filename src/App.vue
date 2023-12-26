@@ -5,6 +5,7 @@ import StopScreen from "@/components/screens/StopScreen.vue";
 import BusScreen from "@/components/screens/BusScreen.vue";
 import Header from "@/components/Header.vue";
 import StepNavigation from "@/components/StepNavigation.vue";
+import { GetAllRegions } from "@/services/db.js";
 
 const ScreenVisibility = ref({
   Region: false,
@@ -15,22 +16,8 @@ const ScreenVisibility = ref({
 let regionName = ref(null);
 let busStopName = ref(null);
 
-const regionList = ref([
-  "Region 1",
-  "Region 2",
-  "Region 3",
-  "Region 4",
-  "Region 5",
-  "Region 6",
-  "Region 7",
-  "Region 8",
-  "Region 9",
-  "Region 10",
-  "Region 11",
-  "Region 12",
-  "Region 13",
-  "Region 14",
-]);
+const allRegionList = ref(null);
+const availableRegionList = ref(null);
 const stopList = ref([
   "Stop 1",
   "Stop 2",
@@ -41,11 +28,9 @@ const stopList = ref([
 ]);
 
 onMounted(() => {
-  console.log("Retrieving of regions from data base... todo");
-  // GetAllRegions().then((response) => {
-  //   availableRegionList.value = response;
-  //   allRegionList.value = response;
-  // });
+  GetAllRegions().then((response) => {
+    allRegionList.value = response;
+  });
 });
 
 function HideAllScreens() {
@@ -58,6 +43,12 @@ function NavigateScreen(clickedNavigationButton) {
   HideAllScreens();
   ScreenVisibility.value[clickedNavigationButton] = true;
 }
+
+function SearchStops(value) {
+  // todo: implement
+  console.log(`:: region name : ${value} ::`);
+  console.log(":: Search stops and switch to the Stops Screen");
+}
 </script>
 
 <template>
@@ -67,8 +58,13 @@ function NavigateScreen(clickedNavigationButton) {
         <Header />
         <StepNavigation @navigation-button-clicked="NavigateScreen" />
 
-        <RegionScreen v-if="ScreenVisibility.Region" :regions="regionList" />
-        <!-- @found-region-name-changed="ShowBusStopSearchScreen" />-->
+        <RegionScreen
+          v-if="ScreenVisibility.Region"
+          :regions="
+            availableRegionList === null ? allRegionList : availableRegionList
+          "
+          @region-name-changed="SearchStops"
+        />
 
         <StopScreen
           v-if="ScreenVisibility.Stop"

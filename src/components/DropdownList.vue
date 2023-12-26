@@ -1,31 +1,44 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { initDropdowns } from "flowbite";
 const props = defineProps({
   inputBoxId: String,
   listData: Array,
   elementStyle: Object,
 });
+const emit = defineEmits(["itemSelectAction"]);
 
-// initialize components based on data attribute selectors
+let x = ref(null);
+
+const opts = {
+  placement: "bottom",
+  triggerType: "click",
+  offsetSkidding: 0,
+  offsetDistance: 0,
+  delay: 300,
+  ignoreClickOutsideClass: false,
+  // onShow: function () {},
+  // onHide: function () {},
+  // onToggle: function () {},
+};
+const instanceOptions = {
+  id: "dropdownList",
+  override: true,
+};
 onMounted(() => {
   initDropdowns();
 
-  // const searchInputBox = document.getElementById(props.inputBoxId);
-  // const dropdownMenu = document.getElementById("dropdownList");
-
-  // if (searchInputBox && dropdownMenu) {
-  //   searchInputBox.addEventListener("focusin", () => {
-  //     // dropdownMenu.show();
-  //   });
-  //   searchInputBox.addEventListener("focusout", () => {
-  //     // dropdownMenu.hide();
-  //   });
-  // }
+  x = new Dropdown(
+    document.getElementById("dropdownList"),
+    document.getElementById(props.inputBoxId),
+    opts,
+    instanceOptions,
+  );
 });
 
-function dropClicked() {
-  console.log("dropClicked");
+function dropClicked(value) {
+  x.hide();
+  emit("itemSelectAction", value);
 }
 </script>
 
@@ -46,8 +59,9 @@ function dropClicked() {
             props.elementStyle.text.listItem.hover,
             props.elementStyle.background.listItem.hover,
           ]"
+          @click="dropClicked(item.stop_area)"
         >
-          {{ item }}
+          {{ item.stop_area }}
         </a>
       </li>
     </ul>
