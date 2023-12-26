@@ -1,6 +1,6 @@
 <script setup>
 import IconSearch from "@/components/icons/IconSearch.vue";
-import Dropdown from "@/components/dropdown.vue";
+import DropdownList from "@/components/DropdownList.vue";
 import { onMounted, ref } from "vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 
@@ -36,7 +36,7 @@ function SearchRegion() {
 </script>
 
 <template>
-  <dropdown inputBoxId="region_name" :list-data="regionList" />
+  <DropdownList inputBoxId="region_name" :list-data="regionList" />
   <div class="bg-bear-cyan-500">
     <p class="font-lato text-sm text-bear-cyan-1500 p-3.5">
       Enter the name of the region or select a region from the list, please.
