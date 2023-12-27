@@ -3,35 +3,48 @@ import DropdownList from "@/components/DropdownList.vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import { elementStyles } from "@/ui/stopScreen.js";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   regionName: String,
   stops: Array,
 });
 
-const emit = defineEmits(["busStopNameChanged", "navigateBackAction"]);
+const emit = defineEmits(["busStopNameChanged"]);
+let stopName = ref(null);
+const availableStopList = ref(null);
 
-function SearchBusStop() {
-  console.log("go to database");
+function SearchBuses() {
+  emit("busStopNameChanged", stopName.value);
 }
 
-function NavigateBack() {
-  emit("navigateBackAction");
+function setStopName(value) {
+  stopName.value = value;
 }
 
-/**
- * Go to the bus stop's bus list.
- */
-function GetBuses() {
-  emit("busStopNameChanged", "bus-stop-name");
-}
+watch(stopName, async (value) => {
+  // Filter the list of stops when the user enters a stop name in
+  // the input box.
+  // Filtering is from the start of the word.
+  // If the input box is empty, fill the stop list with all stop names.
+
+  if (value === "") {
+    availableStopList.value = null;
+  } else {
+    availableStopList.value = props.stops.filter((s) =>
+      s.stop_name.startsWith(value),
+    );
+  }
+});
 </script>
 
 <template>
   <DropdownList
     inputBoxId="stop_name"
-    :list-data="props.stops"
+    :list-data="availableStopList === null ? props.stops : availableStopList"
+    list-item-text-attribute="stop_name"
     :element-style="elementStyles"
+    @item-select-action="setStopName"
   />
   <div :class="elementStyles.background.screen">
     <p class="font-lato text-sm p-3.5" :class="elementStyles.text.description">
@@ -45,9 +58,10 @@ function GetBuses() {
       data-dropdown-offset-distance="0"
       data-dropdown-placement="bottom"
       data-dropdown-toggle="dropdownList"
-      placeholder="Region Name"
+      placeholder=""
       required
       type="text"
+      v-model="stopName"
     />
 
     <InfoTotalNumber count-object="stops" amount="-888" />
@@ -60,7 +74,7 @@ function GetBuses() {
           elementStyles.text.searchButton.hover,
         ]"
         type="button"
-        @click=""
+        @click="SearchBuses"
       >
         <IconSearch class="px-1" />
         Search

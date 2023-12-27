@@ -42,10 +42,10 @@ watch(regionName, async (value) => {
     :list-data="
       availableRegionList === null ? props.regions : availableRegionList
     "
+    list-item-text-attribute="stop_area"
     :element-style="elementStyles"
     @item-select-action="setRegionName"
   />
-  <!--  <div class="bg-bear-cyan-500">-->
   <div :class="elementStyles.background.screen">
     <p class="font-lato text-sm p-3.5" :class="elementStyles.text.description">
       Enter the name of the region or select a region from the list, please.

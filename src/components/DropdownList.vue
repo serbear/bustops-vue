@@ -5,6 +5,7 @@ const props = defineProps({
   inputBoxId: String,
   listData: Array,
   elementStyle: Object,
+  listItemTextAttribute: String,
 });
 const emit = defineEmits(["itemSelectAction"]);
 
@@ -17,9 +18,6 @@ const opts = {
   offsetDistance: 0,
   delay: 300,
   ignoreClickOutsideClass: false,
-  // onShow: function () {},
-  // onHide: function () {},
-  // onToggle: function () {},
 };
 const instanceOptions = {
   id: "dropdownList",
@@ -59,9 +57,9 @@ function dropClicked(value) {
             props.elementStyle.text.listItem.hover,
             props.elementStyle.background.listItem.hover,
           ]"
-          @click="dropClicked(item.stop_area)"
+          @click="dropClicked(item[props.listItemTextAttribute])"
         >
-          {{ item.stop_area }}
+          {{ item[props.listItemTextAttribute] }}
         </a>
       </li>
     </ul>
