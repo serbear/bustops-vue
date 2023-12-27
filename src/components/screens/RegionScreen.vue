@@ -3,13 +3,14 @@ import IconSearch from "@/components/icons/IconSearch.vue";
 import DropdownList from "@/components/DropdownList.vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 import { elementStyles } from "@/ui/regionScreen.js";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const emit = defineEmits(["regionNameChanged"]);
 const props = defineProps({
   regions: Array,
 });
 let regionName = ref(null);
+const availableRegionList = ref(null);
 
 function SearchRegion() {
   emit("regionNameChanged", regionName.value);
@@ -18,12 +19,29 @@ function SearchRegion() {
 function setRegionName(value) {
   regionName.value = value;
 }
+
+watch(regionName, async (value) => {
+  // Filter the list of regions when the user enters a region name in
+  // the input box.
+  // Filtering is from the start of the word.
+  // If the input box is empty, fill the region list with all region names.
+
+  if (value === "") {
+    availableRegionList.value = null;
+  } else {
+    availableRegionList.value = props.regions.filter((s) =>
+      s.stop_area.startsWith(value),
+    );
+  }
+});
 </script>
 
 <template>
   <DropdownList
     inputBoxId="region_name"
-    :list-data="props.regions"
+    :list-data="
+      availableRegionList === null ? props.regions : availableRegionList
+    "
     :element-style="elementStyles"
     @item-select-action="setRegionName"
   />
