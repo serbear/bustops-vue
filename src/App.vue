@@ -5,7 +5,11 @@ import StopScreen from "@/components/screens/StopScreen.vue";
 import BusScreen from "@/components/screens/BusScreen.vue";
 import Header from "@/components/Header.vue";
 import StepNavigation from "@/components/StepNavigation.vue";
-import { GetAllRegions, GetRegionStops } from "@/services/db.js";
+import {
+  GetAllRegions,
+  GetRegionStops,
+  GetBusesForStopOfRegion,
+} from "@/services/db.js";
 import { ScreenNamesEnum } from "@/enums.js";
 
 const ScreenVisibility = ref({
@@ -19,6 +23,7 @@ let busStopName = ref(null);
 
 const allRegionList = ref(null);
 const stopList = ref(null);
+const bussesList = ref(null);
 
 onMounted(() => {
   GetAllRegions().then((response) => {
@@ -38,13 +43,19 @@ function NavigateScreen(clickedNavigationButton) {
 }
 
 function SearchStops(value) {
+  regionName.value = value;
   // Find stops in the region.
   GetRegionStops(value).then((response) => (stopList.value = response));
   // Switch to the Stops Screen.
   NavigateScreen(ScreenNamesEnum.STOP);
 }
 function SearchBuses(value) {
-  console.log(`Search buses on : ${value}`);
+  busStopName.value = value;
+  GetBusesForStopOfRegion(regionName.value, busStopName.value).then(
+    (response) => {
+      bussesList.value = response;
+    },
+  );
   NavigateScreen(ScreenNamesEnum.BUS);
 }
 </script>
@@ -69,7 +80,11 @@ function SearchBuses(value) {
           @bus-stop-name-changed="SearchBuses"
         />
 
-        <BusScreen v-if="ScreenVisibility.Bus" :bus-stop-name="busStopName" />
+        <BusScreen
+          v-if="ScreenVisibility.Bus"
+          :bus-stop-name="busStopName"
+          :busses="bussesList"
+        />
       </div>
     </div>
   </main>
