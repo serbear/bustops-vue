@@ -2,6 +2,7 @@
 import BusInfo from "@/components/bus_information/BusInfo.vue";
 import { ref } from "vue";
 import BusTimes from "@/components/bus_information/BusTimes.vue";
+import SeparatorCircle from "@/components/bus_information/SeparatorCircle.vue";
 
 const props = defineProps({
   busNumber: String,
@@ -10,13 +11,23 @@ const props = defineProps({
   times: Array,
 });
 const isTimesVisible = ref(false);
+
+function ShowTime() {
+  isTimesVisible.value = !isTimesVisible.value;
+}
 </script>
 
 <template>
-  <BusInfo
-    :bus-number="props.busNumber"
-    :firm-name="props.firmName"
-    :route-name="props.routeName"
-  />
-  <BusTimes v-if="isTimesVisible" />
+  <div class="flex flex-col">
+    <BusInfo
+      :firm-name="props.firmName"
+      :route-name="props.routeName"
+      :bus-number="props.busNumber"
+      @click="ShowTime"
+    />
+  </div>
+  <div>
+    <BusTimes v-if="isTimesVisible" />
+  </div>
+  <SeparatorCircle />
 </template>

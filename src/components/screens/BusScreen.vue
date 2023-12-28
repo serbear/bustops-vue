@@ -4,6 +4,7 @@ import BusCard from "@/components/bus_information/BusCard.vue";
 import { ref, watch } from "vue";
 // noinspection SpellCheckingInspection
 import ProgreSpinner from "@/components/ProgreSpinner.vue";
+import SeparatorCircle from "@/components/bus_information/SeparatorCircle.vue";
 
 const props = defineProps({
   busStopName: String,
@@ -29,6 +30,7 @@ watch(
       Here are the buses for <b>{{ props.busStopName }}</b> :
     </p>
 
+    <SeparatorCircle />
     <div v-for="item in props.busses" :key="item">
       <!--suppress JSUnresolvedReference -->
       <BusCard
