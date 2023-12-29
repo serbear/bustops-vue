@@ -1,5 +1,3 @@
-import resolve from "node:resolve";
-
 export function GetAllRegions() {
   let url = "http://localhost:3000/allStopAreas";
 
@@ -74,10 +72,37 @@ export function GetRegionStops(regionName) {
     });
 }
 
-export async function GetBusesForStopOfRegion(regionName, stopName) {
+export async function GetBusesForStopOfRegion(stopId) {
   let url = "http://localhost:3000/busesForStopOfRegion";
   let postData = {
-    region_name: regionName,
+    stop_id: stopId,
+  };
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Network response was not ok");
+        return { name: "error" };
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return { name: "error" };
+    });
+}
+export async function GetStopDescription(stopName) {
+  let url = "http://localhost:3000/stopDescription";
+  let postData = {
     stop_name: stopName,
   };
 

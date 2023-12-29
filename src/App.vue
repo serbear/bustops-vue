@@ -49,13 +49,11 @@ function SearchStops(value) {
   // Switch to the Stops Screen.
   NavigateScreen(ScreenNamesEnum.STOP);
 }
-function SearchBuses(value) {
-  busStopName.value = value;
-  GetBusesForStopOfRegion(regionName.value, busStopName.value).then(
-    (response) => {
-      bussesList.value = response;
-    },
-  );
+function SearchBuses(stopName, stopId) {
+  busStopName.value = stopName;
+  GetBusesForStopOfRegion(stopId).then((response) => {
+    bussesList.value = response;
+  });
   NavigateScreen(ScreenNamesEnum.BUS);
 }
 </script>

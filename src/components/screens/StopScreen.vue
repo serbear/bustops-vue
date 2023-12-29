@@ -4,6 +4,8 @@ import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import { elementStyles } from "@/ui/stopScreen.js";
 import { ref, watch } from "vue";
+import { GetStopDescription } from "@/services/db.js";
+import InfoSheet from "@/components/infosheet/InfoSheet.vue";
 
 const props = defineProps({
   regionName: String,
@@ -13,13 +15,36 @@ const props = defineProps({
 const emit = defineEmits(["busStopNameChanged"]);
 let stopName = ref(null);
 const availableStopList = ref(null);
+let stopList = ref(null);
+let isSpinner = ref(false);
+let isStopListVisible = ref(false);
+let isKeyUp = ref(false);
 
-function SearchBuses() {
-  emit("busStopNameChanged", stopName.value);
+function SearchStops() {
+  isSpinner.value = true;
+  // noinspection JSValidateTypes
+  GetStopDescription(stopName.value)
+    .then((response) => (stopList.value = response))
+    .then(() => (isSpinner.value = false))
+    .then(() => (isStopListVisible.value = true));
+}
+function SearchBuses(stopId) {
+  emit("busStopNameChanged", stopName.value, stopId);
 }
 
 function setStopName(value) {
-  stopName.value = value;
+  isKeyUp.value = false;
+
+  // Show the Search button and hide the list of founded stops,
+  // if user has selected another stop name.
+  if (value !== stopName.value) {
+    isStopListVisible.value = false;
+    stopName.value = value;
+  }
+}
+
+function SetIsKeyUp(value) {
+  isKeyUp.value = value;
 }
 
 watch(stopName, async (value) => {
@@ -28,9 +53,12 @@ watch(stopName, async (value) => {
   // Filtering is from the start of the word.
   // If the input box is empty, fill the stop list with all stop names.
 
-  if (value === "") {
+  // Filter data during key press event only.
+
+  if (value === "" || isKeyUp.value === false) {
     availableStopList.value = null;
   } else {
+    // noinspection JSValidateTypes
     availableStopList.value = props.stops.filter((s) =>
       s.stop_name.startsWith(value),
     );
@@ -62,6 +90,7 @@ watch(stopName, async (value) => {
       required
       type="text"
       v-model="stopName"
+      @keyup="SetIsKeyUp(true)"
     />
 
     <InfoTotalNumber count-object="stops" amount="-888" />
@@ -74,25 +103,36 @@ watch(stopName, async (value) => {
           elementStyles.text.searchButton.hover,
         ]"
         type="button"
-        @click="SearchBuses"
+        @click="SearchStops"
+        v-if="!isStopListVisible"
       >
-        <IconSearch class="px-1" />
+        <svg
+          role="status"
+          class="inline w-4 h-4 me-3 text-white animate-spin"
+          viewBox="0 0 100 101"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          v-if="isSpinner"
+        >
+          <path
+            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="#E5E7EB"
+          />
+          <path
+            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentColor"
+          />
+        </svg>
+        <IconSearch class="px-1" v-if="!isSpinner" />
         Search
       </button>
-      <!-- @click="SearchStops"-->
     </div>
+
+    <InfoSheet
+      v-if="isStopListVisible"
+      :data-array="stopList"
+      :lead-text="'There are many stops with this name. Choose one:'"
+      @row-clicked-action="SearchBuses"
+    />
   </div>
-
-  <!--  <div class="bg-bear-yellow-500">-->
-  <!--    -->
-  <!--    <p class="font-lato text-sm text-bear-yellow-1500">-->
-  <!--      Enter the name of the bus stop or select a bus stop from the list, please.-->
-  <!--    </p>-->
-  <!--  </div>-->
-  <!--  <h1>Bus Stop Search</h1>-->
-  <!--  <p>Region: {{regionName}}</p>-->
-
-  <!--  <button type="button" @click="NavigateBack" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Go Back</button>-->
-  <!--  <button type="button" @click="SearchBusStop" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Search Bus Stop</button>-->
-  <!--  <button type="button" @click="GetBuses" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">:: pick up bus ::</button>-->
 </template>
