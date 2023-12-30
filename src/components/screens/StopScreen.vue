@@ -28,6 +28,7 @@ function SearchStops() {
     .then(() => (isSpinner.value = false))
     .then(() => (isStopListVisible.value = true));
 }
+
 function SearchBuses(stopId) {
   emit("busStopNameChanged", stopName.value, stopId);
 }
@@ -131,7 +132,10 @@ watch(stopName, async (value) => {
     <InfoSheet
       v-if="isStopListVisible"
       :data-array="stopList"
-      :lead-text="'There are many stops with this name. Choose one:'"
+      leadText="There are many stops with this name. Choose one:"
+      itemKeyAttribute="stop_id"
+      infoTitleName="InfoTitleStop"
+      :element-style="elementStyles"
       @row-clicked-action="SearchBuses"
     />
   </div>

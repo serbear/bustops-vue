@@ -1,25 +1,25 @@
 export const elementStyles = {
   text: {
     description: "text-bear-sand-1500",
-    hoverListItem: "",
+    hoverListItem: "text-bear-slate-200",
     listItem: {
-      normal: "",
-      hover: "",
+      normal: "text-bear-sand-1500",
+      hover: "hover:text-bear-slate-200",
     },
-    inputBox: "",
+    inputBox: "text-bear-slate-900",
     searchButton: {
-      hover: "",
+      hover: "hover:text-bear-slate-200",
     },
   },
   background: {
     screen: "bg-bear-sand-500",
-    hoverListItem: "",
-    inputBox: "",
+    hoverListItem: "bg-bear-sand-800",
+    inputBox: "bg-bear-slate-200",
     searchButton: {
-      hover: "",
+      hover: "hover:bg-bear-sand-800",
     },
     listItem: {
-      hover: "",
+      hover: "hover:bg-bear-sand-800",
     },
   },
 };

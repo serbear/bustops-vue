@@ -4,6 +4,9 @@ import InfoCard from "@/components/infosheet/InfoCard.vue";
 const props = defineProps({
   leadText: String,
   dataArray: Array,
+  itemKeyAttribute: String,
+  infoTitleName: String,
+  elementStyle: Object,
 });
 const emit = defineEmits(["RowClickedAction"]);
 function RowClickedActionEmit(value) {
@@ -13,15 +16,29 @@ function RowClickedActionEmit(value) {
 
 <template>
   <div v-if="props.leadText !== null">
-    <p class="font-lato text-sm p-3.5">{{ props.leadText }}</p>
+    <p
+      class="font-lato text-sm p-3.5"
+      :class="[
+        props.elementStyle.background.screen,
+        props.elementStyle.text.description,
+      ]"
+    >
+      {{ props.leadText }}
+    </p>
   </div>
   <div>
     <!--    <SeparatorCircle />-->
-    <div v-for="(item, index) in props.dataArray" :key="item.stop_id">
+    <div
+      v-for="(item, index) in props.dataArray"
+      :key="
+        props.itemKeyAttribute === null ? index : item[props.itemKeyAttribute]
+      "
+    >
       <InfoCard
-        :child-component="`InfoTitleStop`"
+        :title-component="props.infoTitleName"
         :child-component-data="item"
         :row-index="index"
+        :element-style="props.elementStyle"
         @row-clicked-action="RowClickedActionEmit"
       />
     </div>
