@@ -21,6 +21,7 @@ function RowClickedAction(value) {
   >
     <div class="grid grid-cols-5 gap-0">
       <div class="px-3.5">#{{ props.rowIndex + 1 }}</div>
+      <!--suppress JSUnresolvedReference -->
       <div class="col-span-4">
         {{ props.data.stop_desc === null ? "N/A" : props.data.stop_desc }}
       </div>

@@ -32,22 +32,4 @@ watch(
     infoTitleName="InfoTitleBus"
     :element-style="elementStyles"
   />
-
-  <!--  old-->
-  <!--  <div v-if="isBusCardVisible" :class="elementStyles.background.screen">-->
-  <!--    <p class="font-lato text-sm p-3.5" :class="elementStyles.text.description">-->
-  <!--      Here are the buses for <b>{{ props.busStopName }}</b> :-->
-  <!--    </p>-->
-
-  <!--    <SeparatorCircle />-->
-
-  <!--    <div v-for="item in props.busses" :key="item">-->
-  <!--suppress JSUnresolvedReference -->
-  <!--      <BusCard-->
-  <!--        :bus-number="item.route_short_name"-->
-  <!--        :firm-name="item.agency_name"-->
-  <!--        :route-name="item.route_long_name"-->
-  <!--      />-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
