@@ -36,7 +36,7 @@ function ShowTime() {
   <div>
     <BusTimes
       v-if="isTimesVisible"
-      :data="null"
+      :data="props.data.arrival_time"
       :element-style="props.elementStyle"
     />
   </div>
