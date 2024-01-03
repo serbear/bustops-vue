@@ -13,6 +13,7 @@ import {
 import { ScreenNamesEnum } from "@/enums.js";
 import UserOptions from "@/components/screens/UserOptions.vue";
 import UserLocation from "@/components/UserLocation.vue";
+import { IsInScreenList } from "@/services/ui.js";
 
 const ScreenVisibility = ref({
   Region: false,
@@ -33,6 +34,7 @@ const showNavigationButtons = ref(false);
 
 onMounted(() => {
   GetAllRegions().then((response) => {
+    // noinspection JSValidateTypes
     allRegionList.value = response;
   });
 });
@@ -44,6 +46,7 @@ function HideAllScreens() {
 }
 
 function NavigateScreen(clickedNavigationButton) {
+  showNavigationButtons.value = IsInScreenList(clickedNavigationButton);
   HideAllScreens();
   ScreenVisibility.value[clickedNavigationButton] = true;
 }
@@ -57,10 +60,11 @@ function SearchStops(value) {
 }
 function SearchBuses(stopName, stopId) {
   busStopName.value = stopName;
+  NavigateScreen(ScreenNamesEnum.BUS);
+
   GetBusesForStopOfRegion(stopId).then((response) => {
     bussesList.value = response;
   });
-  NavigateScreen(ScreenNamesEnum.BUS);
 }
 </script>
 
@@ -74,7 +78,11 @@ function SearchBuses(stopName, stopId) {
           :show-buttons="showNavigationButtons"
         />
 
-        <UserLocation v-if="ScreenVisibility.UserLocation" />
+        <UserLocation
+          v-if="ScreenVisibility.UserLocation"
+          @show-busses-pressed="SearchBuses"
+        />
+
         <UserOptions v-if="ScreenVisibility.UserOptions" />
 
         <RegionScreen

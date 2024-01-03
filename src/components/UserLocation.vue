@@ -5,18 +5,19 @@ import { onMounted, ref } from "vue";
 import { GetGeoLocation } from "@/services/geoloc.js";
 import { GetRegionAndNearestStop } from "@/services/db.js";
 
-const emit = defineEmits(["UserOptionSelected"]);
+const emit = defineEmits(["ShowBussesPressed"]);
 const isLocatingPosition = ref(true);
 
 let regionName = ref(null);
 let stopName = ref(null);
+let stopId = ref(null);
 
 onMounted(() => {
   GetGeoLocation((coordinates) => {
     if (coordinates.hasOwnProperty("error")) {
       isLocatingPosition.value = false;
       // todo: show error message
-      console.log(coordinates);
+      console.log(coordinates.error);
     } else {
       GetRegionAndStop(coordinates);
     }
@@ -25,9 +26,14 @@ onMounted(() => {
 function GetRegionAndStop(coordinates) {
   GetRegionAndNearestStop(coordinates).then((response) => {
     isLocatingPosition.value = false;
+    // noinspection JSUnresolvedReference
     regionName.value = response[0].stop_area;
     stopName.value = response[0].stop_name;
+    stopId.value = response[0].stop_id;
   });
+}
+function ShowBussesPressed() {
+  emit("ShowBussesPressed", stopName.value, stopId.value);
 }
 </script>
 
@@ -40,6 +46,6 @@ function GetRegionAndStop(coordinates) {
     <p>{{ regionName }}</p>
     <p>Nearest stop:</p>
     <p>{{ stopName }}</p>
-    <button>Show Buses</button>
+    <button @click="ShowBussesPressed">Show Buses</button>
   </div>
 </template>
