@@ -11,11 +11,15 @@ import {
   GetBusesForStopOfRegion,
 } from "@/services/db.js";
 import { ScreenNamesEnum } from "@/enums.js";
+import UserOptions from "@/components/screens/UserOptions.vue";
+import UserLocation from "@/components/UserLocation.vue";
 
 const ScreenVisibility = ref({
   Region: false,
   Stop: false,
   Bus: false,
+  UserOptions: false,
+  UserLocation: true,
 });
 
 let regionName = ref(null);
@@ -24,6 +28,8 @@ let busStopName = ref(null);
 const allRegionList = ref(null);
 const stopList = ref(null);
 const bussesList = ref(null);
+
+const showNavigationButtons = ref(false);
 
 onMounted(() => {
   GetAllRegions().then((response) => {
@@ -63,7 +69,13 @@ function SearchBuses(stopName, stopId) {
     <div class="h-screen flex flex-col items-center bg-bear-slate-900">
       <div class="flex-1 w-96 bg-bear-red-500">
         <Header />
-        <StepNavigation @navigation-button-clicked="NavigateScreen" />
+        <StepNavigation
+          @navigation-button-clicked="NavigateScreen"
+          :show-buttons="showNavigationButtons"
+        />
+
+        <UserLocation v-if="ScreenVisibility.UserLocation" />
+        <UserOptions v-if="ScreenVisibility.UserOptions" />
 
         <RegionScreen
           v-if="ScreenVisibility.Region"
