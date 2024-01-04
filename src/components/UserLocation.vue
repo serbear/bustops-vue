@@ -4,6 +4,8 @@ import ProgreSpinner from "@/components/ProgreSpinner.vue";
 import { onMounted, ref } from "vue";
 import { GetGeoLocation } from "@/services/geoloc.js";
 import { GetRegionAndNearestStop } from "@/services/db.js";
+import { elementStyles } from "@/ui/userLocation.js";
+import IconBus from "@/components/icons/IconBus.vue";
 
 const emit = defineEmits(["ShowBussesPressed"]);
 const isLocatingPosition = ref(true);
@@ -42,10 +44,44 @@ function ShowBussesPressed() {
     <ProgreSpinner v-if="isLocatingPosition" />
   </div>
   <div>
-    <p>Your region:</p>
-    <p>{{ regionName }}</p>
-    <p>Nearest stop:</p>
-    <p>{{ stopName }}</p>
-    <button @click="ShowBussesPressed">Show Buses</button>
+    <p
+      class="text-sm text-center py-3.5"
+      :class="elementStyles.text.description"
+    >
+      Your region:
+    </p>
+    <p
+      class="text-lg text-center font-bold"
+      :class="elementStyles.text.regionAndStop.normal"
+    >
+      {{ regionName }}
+    </p>
+    <p
+      class="text-sm text-center py-3.5"
+      :class="elementStyles.text.description"
+    >
+      Nearest stop:
+    </p>
+    <p
+      class="text-lg text-center font-bold"
+      :class="elementStyles.text.regionAndStop.normal"
+    >
+      {{ stopName }}
+    </p>
+    <div class="pt-7">
+      <button
+        class="bg-bear-red-800 pr-5 font-bold font-lato text-base focus:outline-none h-14 w-full inline-flex items-center justify-center"
+        :class="[
+          elementStyles.text.showBussesButton.normal,
+          elementStyles.text.showBussesButton.hover,
+          elementStyles.background.showBussesButton.normal,
+        ]"
+        type="button"
+        @click="ShowBussesPressed"
+      >
+        <IconBus class="px-1" />
+        Show Buses
+      </button>
+    </div>
   </div>
 </template>
