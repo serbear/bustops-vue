@@ -10,6 +10,7 @@ export const elementStyles = {
     },
   },
   background: {
+    screen: "bg-bear-red-500",
     showBussesButton: {
       normal: "bg-bear-red-800",
       hover: "hover:bg-bear-red-800",
