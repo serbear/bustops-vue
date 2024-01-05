@@ -9,7 +9,7 @@ import IconBus from "@/components/icons/IconBus.vue";
 import Message from "@/components/Message.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 
-const emit = defineEmits(["ShowBussesPressed"]);
+const emit = defineEmits(["ShowBussesPressed", "SearchManuallyPressed"]);
 const isLocatingPosition = ref(true);
 const isError = ref(false);
 
@@ -42,7 +42,9 @@ function GetRegionAndStop(coordinates) {
 function ShowBussesPressed() {
   emit("ShowBussesPressed", stopName.value, stopId.value);
 }
-function SearchManuallyPressed() {}
+function SearchManuallyPressed() {
+  emit("SearchManuallyPressed");
+}
 </script>
 
 <template>

@@ -81,6 +81,7 @@ function SearchBuses(stopName, stopId) {
         <UserLocation
           v-if="ScreenVisibility.UserLocation"
           @show-busses-pressed="SearchBuses"
+          @search-manually-pressed="NavigateScreen(ScreenNamesEnum.REGION)"
         />
 
         <UserOptions v-if="ScreenVisibility.UserOptions" />
