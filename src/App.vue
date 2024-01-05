@@ -29,8 +29,9 @@ let busStopName = ref(null);
 const allRegionList = ref(null);
 const stopList = ref(null);
 const bussesList = ref(null);
-
 const showNavigationButtons = ref(false);
+
+const mainDiv = ref(null);
 
 onMounted(() => {
   GetAllRegions().then((response) => {
@@ -66,11 +67,18 @@ function SearchBuses(stopName, stopId) {
     bussesList.value = response;
   });
 }
+
+onMounted(() => {
+  document.body.style.backgroundColor = "#433E3E";
+});
 </script>
 
 <template>
   <main>
-    <div class="h-screen flex flex-col items-center bg-bear-slate-900">
+    <div
+      class="h-screen flex flex-col items-center bg-bear-slate-900"
+      ref="mainDiv"
+    >
       <div class="flex-1 w-96 bg-bear-red-500">
         <Header />
         <StepNavigation
