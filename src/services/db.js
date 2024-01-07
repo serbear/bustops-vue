@@ -1,5 +1,9 @@
+// noinspection HttpUrlsUsage
+
+const host = "84.50.49.183";
+
 export function GetAllRegions() {
-  let url = "http://localhost:3000/allStopAreas";
+  let url = `http://${host}:3000/allStopAreas`;
 
   return fetch(url)
     .then((response) => {
@@ -19,7 +23,7 @@ export function GetAllRegions() {
 }
 
 export function GetRegionLikeName(regionName) {
-  let url = "http://localhost:3000/stopAreasByName";
+  let url = `http://${host}:3000/stopAreasByName`;
   let postData = { name: regionName };
 
   return fetch(url, {
@@ -46,7 +50,7 @@ export function GetRegionLikeName(regionName) {
 }
 
 export function GetRegionStops(regionName) {
-  let url = "http://localhost:3000/areaStopsByAreaName";
+  let url = `http://${host}:3000/areaStopsByAreaName`;
   let postData = { name: regionName };
 
   return fetch(url, {
@@ -73,7 +77,7 @@ export function GetRegionStops(regionName) {
 }
 
 export async function GetBusesForStopOfRegion(stopId) {
-  let url = "http://localhost:3000/busesForStopOfRegion";
+  let url = `http://${host}:3000/busesForStopOfRegion`;
   let postData = {
     stop_id: stopId,
   };
@@ -101,7 +105,7 @@ export async function GetBusesForStopOfRegion(stopId) {
     });
 }
 export async function GetStopDescription(stopName) {
-  let url = "http://localhost:3000/stopDescription";
+  let url = `http://${host}:3000/stopDescription`;
   let postData = {
     stop_name: stopName,
   };
@@ -129,7 +133,7 @@ export async function GetStopDescription(stopName) {
     });
 }
 export function GetRegionAndNearestStop(coordinates) {
-  let url = "http://localhost:3000/nearestRegionAndStop";
+  let url = `http://${host}:3000/nearestRegionAndStop`;
   let postData = {
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,

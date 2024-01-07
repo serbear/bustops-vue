@@ -134,7 +134,7 @@ watch(stopName, async (value) => {
       :data-array="stopList"
       leadText="There are many stops with this name. Choose one:"
       itemKeyAttribute="stop_id"
-      infoTitleName="InfoTitleStop"
+      :infoTitleName="'InfoTitleStop'"
       :element-style="elementStyles"
       @row-clicked-action="SearchBuses"
     />

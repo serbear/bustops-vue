@@ -9,7 +9,7 @@ const props = defineProps({
   elementStyle: Object,
 });
 const asyComponent = defineAsyncComponent(
-  () => import(`./${props.titleComponent}.vue`),
+  () => import(`./titles/${props.titleComponent}.vue`),
 );
 function RowClickedAction(value) {
   emit("RowClickedAction", value);

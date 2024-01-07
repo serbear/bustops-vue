@@ -39,7 +39,7 @@ watch(
     :data-array="props.busses"
     :lead-text="`Here are the buses for ${props.busStopName}:`"
     :item-key-attribute="null"
-    infoTitleName="InfoTitleBus"
+    :infoTitleName="'InfoTitleBus'"
     :element-style="elementStyles"
   />
 </template>
