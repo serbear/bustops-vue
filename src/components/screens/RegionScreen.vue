@@ -29,6 +29,7 @@ watch(regionName, async (value) => {
   if (value === "") {
     availableRegionList.value = null;
   } else {
+    // noinspection JSValidateTypes,JSUnresolvedReference
     availableRegionList.value = props.regions.filter((s) =>
       s.stop_area.startsWith(value),
     );

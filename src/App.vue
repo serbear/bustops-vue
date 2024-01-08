@@ -25,13 +25,13 @@ const ScreenVisibility = ref({
 
 let regionName = ref(null);
 let busStopName = ref(null);
+let currentScreen = ref(ScreenNamesEnum.REGION);
+const openScreens = ref([ScreenNamesEnum.REGION]);
 
 const allRegionList = ref(null);
 const stopList = ref(null);
 const bussesList = ref(null);
 const showNavigationButtons = ref(false);
-
-const mainDiv = ref(null);
 
 onMounted(() => {
   GetAllRegions().then((response) => {
@@ -46,10 +46,15 @@ function HideAllScreens() {
   });
 }
 
-function NavigateScreen(clickedNavigationButton) {
-  showNavigationButtons.value = IsInScreenList(clickedNavigationButton);
+function NavigateScreen(screenName) {
+  showNavigationButtons.value = IsInScreenList(screenName);
   HideAllScreens();
-  ScreenVisibility.value[clickedNavigationButton] = true;
+  ScreenVisibility.value[screenName] = true;
+
+  if (openScreens.value.indexOf(screenName) === -1) {
+    openScreens.value.push(screenName);
+  }
+  currentScreen.value = screenName;
 }
 
 function SearchStops(value) {
@@ -75,15 +80,14 @@ onMounted(() => {
 
 <template>
   <main>
-    <div
-      class="h-screen flex flex-col items-center bg-bear-slate-900"
-      ref="mainDiv"
-    >
+    <div class="h-screen flex flex-col items-center bg-bear-slate-900">
       <div class="flex-1 w-96 bg-bear-red-500">
         <Header />
         <StepNavigation
           @navigation-button-clicked="NavigateScreen"
           :show-buttons="showNavigationButtons"
+          :open-screens="openScreens"
+          :current-screen="currentScreen"
         />
 
         <UserLocation

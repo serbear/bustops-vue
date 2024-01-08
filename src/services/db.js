@@ -1,6 +1,7 @@
 // noinspection HttpUrlsUsage
 
-const host = "84.50.49.183";
+// const host = "84.50.49.183";
+const host = "localhost";
 
 export function GetAllRegions() {
   let url = `http://${host}:3000/allStopAreas`;
