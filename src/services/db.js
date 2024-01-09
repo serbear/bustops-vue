@@ -1,37 +1,17 @@
 // noinspection HttpUrlsUsage
 
-// const host = "84.50.49.183";
-const host = "localhost";
+import { RequestMethods } from "@/enums.js";
 
-export function GetAllRegions() {
-  let url = `http://${host}:3000/allStopAreas`;
+const host = "http://localhost"; // http://84.50.49.183
+const port = "3000";
 
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return { name: "error" };
-    });
-}
-export function GetRegionStops(regionName) {
-  let url = `http://${host}:3000/areaStopsByAreaName`;
-  let postData = { name: regionName };
-
-  return fetch(url, {
-    method: "POST",
+function fetchData(endPoint, method, bodyData) {
+  return fetch(`${host}:${port}${endPoint}`, {
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(postData),
+    body: JSON.stringify(bodyData),
   })
     .then((response) => {
       if (!response.ok) {
@@ -47,91 +27,37 @@ export function GetRegionStops(regionName) {
       console.log(error);
       return { name: "error" };
     });
+}
+function fetchGetData(endPoint, bodyData) {
+  return fetchData(endPoint, RequestMethods.GET, bodyData);
+}
+function fetchPostData(endPoint, bodyData) {
+  return fetchData(endPoint, RequestMethods.POST, bodyData);
+}
+
+export function GetAllRegions() {
+  return fetchGetData("/allStopAreas");
+}
+export function GetRegionStops(regionName) {
+  return fetchPostData("/areaStopsByAreaName", {
+    name: regionName,
+  });
 }
 
 export async function GetBusesForStopOfRegion(stopId) {
-  let url = `http://${host}:3000/busesForStopOfRegion`;
-  let postData = {
+  return fetchPostData("/busesForStopOfRegion", {
     stop_id: stopId,
-  };
-
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return { name: "error" };
-    });
+  });
 }
 export async function GetStopDescription(stopName, regionName) {
-  let url = `http://${host}:3000/stopDescription`;
-  let postData = {
+  return fetchPostData("/stopDescription", {
     stop_name: stopName,
     stop_area: regionName,
-  };
-
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return { name: "error" };
-    });
+  });
 }
 export function GetRegionAndNearestStop(coordinates) {
-  let url = `http://${host}:3000/nearestRegionAndStop`;
-  let postData = {
+  return fetchPostData("/nearestRegionAndStop", {
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,
-  };
-
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return { name: "error" };
-    });
+  });
 }

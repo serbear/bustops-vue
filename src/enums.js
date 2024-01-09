@@ -3,3 +3,8 @@ export const ScreenNamesEnum = Object.freeze({
   STOP: "Stop",
   BUS: "Bus",
 });
+
+export const RequestMethods = Object.freeze({
+  POST: "POST",
+  GET: "GET",
+});
