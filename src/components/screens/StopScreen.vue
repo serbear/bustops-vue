@@ -23,7 +23,7 @@ let isKeyUp = ref(false);
 function SearchStops() {
   isSpinner.value = true;
   // noinspection JSValidateTypes
-  GetStopDescription(stopName.value)
+  GetStopDescription(stopName.value, props.regionName)
     .then((response) => (stopList.value = response))
     .then(() => (isSpinner.value = false))
     .then(() => (isStopListVisible.value = true));

@@ -22,34 +22,6 @@ export function GetAllRegions() {
       return { name: "error" };
     });
 }
-
-export function GetRegionLikeName(regionName) {
-  let url = `http://${host}:3000/stopAreasByName`;
-  let postData = { name: regionName };
-
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-      return { name: "error" };
-    });
-}
-
 export function GetRegionStops(regionName) {
   let url = `http://${host}:3000/areaStopsByAreaName`;
   let postData = { name: regionName };
@@ -105,10 +77,11 @@ export async function GetBusesForStopOfRegion(stopId) {
       return { name: "error" };
     });
 }
-export async function GetStopDescription(stopName) {
+export async function GetStopDescription(stopName, regionName) {
   let url = `http://${host}:3000/stopDescription`;
   let postData = {
     stop_name: stopName,
+    stop_area: regionName,
   };
 
   return fetch(url, {
