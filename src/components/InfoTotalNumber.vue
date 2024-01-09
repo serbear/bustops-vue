@@ -2,7 +2,7 @@
 import IconInfo from "@/components/icons/IconInfo.vue";
 const props = defineProps({
   countObject: String,
-  amount: null,
+  amount: Number,
 });
 </script>
 

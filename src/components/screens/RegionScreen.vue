@@ -65,7 +65,10 @@ watch(regionName, async (value) => {
       v-model="regionName"
     />
 
-    <InfoTotalNumber count-object="regions" amount="-999" />
+    <InfoTotalNumber
+      count-object="regions"
+      :amount="props.regions !== null ? props.regions.length : 0"
+    />
 
     <div class="grid grid-cols-1 gap-0">
       <button

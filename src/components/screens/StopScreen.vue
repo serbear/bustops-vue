@@ -94,7 +94,10 @@ watch(stopName, async (value) => {
       @keyup="SetIsKeyUp(true)"
     />
 
-    <InfoTotalNumber count-object="stops" amount="-888" />
+    <InfoTotalNumber
+      count-object="stops"
+      :amount="props.stops !== null ? props.stops.length : 0"
+    />
 
     <div class="grid grid-cols-1 gap-0">
       <button
