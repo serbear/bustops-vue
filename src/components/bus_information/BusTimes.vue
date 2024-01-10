@@ -13,6 +13,8 @@ const props = defineProps({
       props.elementStyle.background.screen,
     ]"
   >
-    <div class="text-center" v-for="item in props.data">{{ item }}</div>
+    <div class="text-center font-lato text-sm" v-for="item in props.data">
+      {{ item }}
+    </div>
   </div>
 </template>
