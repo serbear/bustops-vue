@@ -31,7 +31,7 @@ watch(regionName, async (value) => {
   } else {
     // noinspection JSValidateTypes,JSUnresolvedReference
     availableRegionList.value = props.regions.filter((s) =>
-      s.stop_area.startsWith(value),
+      s.stop_area.toLowerCase().startsWith(value.toLowerCase()),
     );
   }
 });

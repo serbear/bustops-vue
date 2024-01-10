@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { initDropdowns } from "flowbite";
+
 const props = defineProps({
   inputBoxId: String,
   listData: Array,
@@ -8,9 +9,6 @@ const props = defineProps({
   listItemTextAttribute: String,
 });
 const emit = defineEmits(["itemSelectAction"]);
-
-let x = ref(null);
-
 const opts = {
   placement: "bottom",
   triggerType: "click",
@@ -23,10 +21,13 @@ const instanceOptions = {
   id: "dropdownList",
   override: true,
 };
+
+let ddList = ref(null);
+
 onMounted(() => {
   initDropdowns();
 
-  x = new Dropdown(
+  ddList = new Dropdown(
     document.getElementById("dropdownList"),
     document.getElementById(props.inputBoxId),
     opts,
@@ -35,13 +36,12 @@ onMounted(() => {
 });
 
 function dropClicked(value) {
-  x.hide();
+  ddList.hide();
   emit("itemSelectAction", value);
 }
 </script>
 
 <template>
-  <!-- Dropdown menu -->
   <div
     id="dropdownList"
     class="z-10 hidden rounded-none w-96 bg-white"
@@ -65,5 +65,3 @@ function dropClicked(value) {
     </ul>
   </div>
 </template>
-
-<style scoped></style>
