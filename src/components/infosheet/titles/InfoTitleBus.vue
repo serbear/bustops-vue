@@ -1,21 +1,26 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import BusTimes from "@/components/bus_information/BusTimes.vue";
+import IconStar from "@/components/icons/IconStar.vue";
 
 const props = defineProps({
   data: Object,
   rowIndex: Number,
   elementStyle: Object,
-});
-
-// noinspection JSUnusedGlobalSymbols
+}); // noinspection JSUnusedGlobalSymbols
 const emit = defineEmits(["RowClickedAction"]);
-
+const isBlinking = ref(true);
 const isTimesVisible = ref(false);
 
 function ShowTime() {
   isTimesVisible.value = !isTimesVisible.value;
 }
+
+onMounted(() => {
+  setInterval(() => {
+    isBlinking.value = !isBlinking.value;
+  }, 500); // Toggle every X milliseconds
+});
 </script>
 <template>
   <div
@@ -27,13 +32,20 @@ function ShowTime() {
     ]"
     @click="ShowTime"
   >
-    <div id="bus-number-and-firm" class="grid grid-cols-5 gap-0">
-      <div class="px-3.5 font-roboto-slab text-sm font-bold">
+    <div id="bus-number-and-firm" class="flex flex-row basis-0 ml-3.5">
+      <div class="w-4">
+        <IconStar v-if="props.data.isEarlier && isBlinking" />
+      </div>
+      <div class="font-roboto-slab text-sm font-bold flex-shrink pl-1.5">
         {{ props.data.route_short_name }}
       </div>
-      <div class="col-span-4 text-sm">{{ props.data.agency_name }}</div>
+      <div class="text-sm pl-1.5">
+        {{ props.data.agency_name }}
+      </div>
     </div>
-    <div class="px-3.5 font-lato text-sm">{{ props.data.route_long_name }}</div>
+    <div class="pl-9 font-lato text-sm flex flex-row">
+      {{ props.data.route_long_name }}
+    </div>
   </div>
   <div>
     <BusTimes

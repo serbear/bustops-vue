@@ -22,4 +22,7 @@ export const elementStyles = {
       hover: "hover:bg-bear-sand-800",
     },
   },
+  border: {
+    normal: "border-bear-sand-800",
+  },
 };

@@ -9,6 +9,7 @@ const props = defineProps({
   elementStyle: Object,
 });
 const emit = defineEmits(["RowClickedAction"]);
+
 function RowClickedActionEmit(value) {
   emit("RowClickedAction", value);
 }
@@ -27,13 +28,13 @@ function RowClickedActionEmit(value) {
     </p>
   </div>
   <div>
-    <!--    <SeparatorCircle />-->
     <div
       v-for="(item, index) in props.dataArray"
       :key="
         props.itemKeyAttribute === null ? index : item[props.itemKeyAttribute]
       "
     >
+      <hr class="h-0 border-1" :class="[props.elementStyle.border.normal]" />
       <InfoCard
         :title-component="props.infoTitleName"
         :child-component-data="item"
