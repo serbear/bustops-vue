@@ -12,16 +12,13 @@ const props = defineProps({
 
 let isBusCardVisible = ref(false);
 let isSpinnerVisible = ref(true);
+const userTime = ref(new Date().toLocaleTimeString("et-ET").slice(0, 5));
 
 watch(
   () => props.busses,
   (newVal) => {
-    console.log(newVal);
     isSpinnerVisible = newVal === null;
-
-    if (newVal !== null) {
-      isBusCardVisible = newVal.length > 0;
-    }
+    if (newVal !== null) isBusCardVisible = newVal.length > 0;
   },
 );
 </script>
@@ -52,6 +49,6 @@ watch(
     :class="[elementStyles.background.screen, elementStyles.text.description]"
     v-if="!isBusCardVisible && !isSpinnerVisible"
   >
-    No buses were found close to the time.
+    No buses were found close to the time ({{ userTime }}).
   </p>
 </template>

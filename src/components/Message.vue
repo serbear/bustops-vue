@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import IconExclamation from "@/components/icons/IconExclamation.vue";
 
 const props = defineProps({
@@ -8,8 +7,6 @@ const props = defineProps({
   messageType: String,
   elementStyle: Object,
 });
-
-let title = ref("");
 </script>
 
 <template>

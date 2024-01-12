@@ -13,7 +13,7 @@ const props = defineProps({
   stops: Array,
 });
 
-const emit = defineEmits(["busStopNameChanged"]);
+const emit = defineEmits(["busStopNameChanged", "onErrorEvent"]);
 const stopName = ref(null);
 const availableStopList = ref(null);
 const stopList = ref(null);
@@ -21,16 +21,31 @@ const isSpinner = ref(false);
 const isStopListVisible = ref(false);
 const isKeyUp = ref(false);
 const isSearchButtonDisabled = ref(true);
+const errorObject = ref({ status: false, message: "" });
 
 function SearchStops() {
   isSpinner.value = true;
   // noinspection JSValidateTypes
   GetStopDescription(stopName.value, props.regionName)
-    .then((response) => (stopList.value = response))
+    .then((response) => {
+      if (checkResponseStatus(response)) {
+        emit("onErrorEvent", errorObject);
+      } else {
+        // noinspection JSValidateTypes
+        stopList.value = response;
+      }
+    })
     .then(() => (isSpinner.value = false))
     .then(() => (isStopListVisible.value = true));
 }
-
+function checkResponseStatus(response) {
+  if (response.status === "error") {
+    errorObject.value.status = true;
+    errorObject.value.message = response.message;
+    return true;
+  }
+  return false;
+}
 function SearchBuses(stopId) {
   emit("busStopNameChanged", stopName.value, stopId);
 }

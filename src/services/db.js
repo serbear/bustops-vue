@@ -15,8 +15,7 @@ function fetchData(endPoint, method, bodyData) {
   })
     .then((response) => {
       if (!response.ok) {
-        console.log("Network response was not ok");
-        return { name: "error" };
+        return { status: "error", message: "Network response was not ok" };
       }
       return response.json();
     })
@@ -24,8 +23,7 @@ function fetchData(endPoint, method, bodyData) {
       return data;
     })
     .catch((error) => {
-      console.log(error);
-      return { name: "error" };
+      return { status: "error", message: error.message };
     });
 }
 function fetchGetData(endPoint, bodyData) {

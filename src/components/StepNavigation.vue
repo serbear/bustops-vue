@@ -10,6 +10,9 @@ const props = defineProps({
 const emit = defineEmits(["navigationButtonClicked"]);
 
 function GetDisableStatusForButton(screenName) {
+  if (props.showButtons === false) {
+    return true;
+  }
   // noinspection JSUnresolvedReference
   if (props.openScreens.indexOf(screenName) === -1) {
     /*
