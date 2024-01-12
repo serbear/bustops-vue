@@ -122,6 +122,7 @@ watch(stopName, async (value) => {
             : [
                 elementStyles.background.searchButton.hover,
                 elementStyles.text.searchButton.hover,
+                elementStyles.text.searchButton.normal,
               ]
         "
         type="button"

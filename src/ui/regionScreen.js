@@ -10,6 +10,7 @@ export const elementStyles = {
     searchButton: {
       hover: "hover:text-bear-slate-200",
       disabled: "text-bear-cyan-800",
+      normal: "text-bear-cyan-1500",
     },
   },
   background: {
