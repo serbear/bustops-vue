@@ -10,6 +10,8 @@ export default {
       colors: {
         "bear-slate": {
           200: "#e2e8f0",
+          300: "#cbd5e1",
+          400: "#94a3b8",
           900: "#433E3E",
         },
         "bear-cyan": {

@@ -4,6 +4,7 @@ import DropdownList from "@/components/DropdownList.vue";
 import InfoTotalNumber from "@/components/InfoTotalNumber.vue";
 import { elementStyles } from "@/ui/regionScreen.js";
 import { ref, watch } from "vue";
+import IconTrashBin from "@/components/icons/IconTrashBin.vue";
 
 const emit = defineEmits(["regionNameChanged"]);
 const props = defineProps({
@@ -52,18 +53,30 @@ watch(regionName, async (value) => {
       Enter the name of the region or select a region from the list, please.
     </p>
 
-    <input
-      id="region_name"
-      class="h-9 text-sm border-0 focus:ring-0 w-full p-3.5"
-      :class="[elementStyles.text.inputBox, elementStyles.background.inputBox]"
-      data-dropdown-offset-distance="0"
-      data-dropdown-placement="bottom"
-      data-dropdown-toggle="stop_area_dropdown"
-      placeholder=""
-      required
-      type="text"
-      v-model="regionName"
-    />
+    <div class="relative">
+      <input
+        id="region_name"
+        class="h-9 text-sm border-0 focus:ring-0 w-full p-3.5"
+        :class="[
+          elementStyles.text.inputBox,
+          elementStyles.background.inputBox,
+        ]"
+        data-dropdown-offset-distance="0"
+        data-dropdown-placement="bottom"
+        data-dropdown-toggle="stop_area_dropdown"
+        placeholder=""
+        required
+        type="text"
+        v-model="regionName"
+      />
+      <button
+        class="bg-bear-slate-200 absolute inset-y-0 right-1.5"
+        type="button"
+        @click="setRegionName('')"
+      >
+        <IconTrashBin />
+      </button>
+    </div>
 
     <InfoTotalNumber
       count-object="regions"

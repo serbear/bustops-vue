@@ -6,6 +6,7 @@ import { elementStyles } from "@/ui/stopScreen.js";
 import { ref, watch } from "vue";
 import { GetStopDescription } from "@/services/db.js";
 import InfoSheet from "@/components/infosheet/InfoSheet.vue";
+import IconTrashBin from "@/components/icons/IconTrashBin.vue";
 
 const props = defineProps({
   regionName: String,
@@ -79,21 +80,31 @@ watch(stopName, async (value) => {
     <p class="font-lato text-sm p-3.5" :class="elementStyles.text.description">
       Enter the name of the bus stop or select a bus stop from the list, please.
     </p>
-
-    <input
-      id="stop_name"
-      class="h-9 text-sm border-0 focus:ring-0 w-full p-3.5"
-      :class="[elementStyles.text.inputBox, elementStyles.background.inputBox]"
-      data-dropdown-offset-distance="0"
-      data-dropdown-placement="bottom"
-      data-dropdown-toggle="stop_name_dropdown"
-      placeholder=""
-      required
-      type="text"
-      v-model="stopName"
-      @keyup="SetIsKeyUp(true)"
-    />
-
+    <div class="relative">
+      <input
+        id="stop_name"
+        class="h-9 text-sm border-0 focus:ring-0 w-full p-3.5"
+        :class="[
+          elementStyles.text.inputBox,
+          elementStyles.background.inputBox,
+        ]"
+        data-dropdown-offset-distance="0"
+        data-dropdown-placement="bottom"
+        data-dropdown-toggle="stop_name_dropdown"
+        placeholder=""
+        required
+        type="text"
+        v-model="stopName"
+        @keyup="SetIsKeyUp(true)"
+      />
+      <button
+        class="bg-bear-slate-200 absolute inset-y-0 right-1.5"
+        type="button"
+        @click="setStopName('')"
+      >
+        <IconTrashBin />
+      </button>
+    </div>
     <InfoTotalNumber
       count-object="stops"
       :amount="props.stops !== null ? props.stops.length : 0"
