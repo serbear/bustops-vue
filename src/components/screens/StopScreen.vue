@@ -20,6 +20,7 @@ const stopList = ref(null);
 const isSpinner = ref(false);
 const isStopListVisible = ref(false);
 const isKeyUp = ref(false);
+const isSearchButtonDisabled = ref(true);
 
 function SearchStops() {
   isSpinner.value = true;
@@ -36,6 +37,7 @@ function SearchBuses(stopId) {
 
 function setStopName(value) {
   isKeyUp.value = false;
+  isSearchButtonDisabled.value = value === "" || value === null;
 
   // Show the Search button and hide the list of founded stops,
   // if user has selected another stop name.
@@ -113,10 +115,15 @@ watch(stopName, async (value) => {
     <div class="grid grid-cols-1 gap-0">
       <button
         class="pr-5 font-bold font-lato text-base focus:outline-none h-14 w-full inline-flex items-center justify-center"
-        :class="[
-          elementStyles.background.searchButton.hover,
-          elementStyles.text.searchButton.hover,
-        ]"
+        :disabled="isSearchButtonDisabled"
+        :class="
+          isSearchButtonDisabled
+            ? [elementStyles.text.searchButton.disabled]
+            : [
+                elementStyles.background.searchButton.hover,
+                elementStyles.text.searchButton.hover,
+              ]
+        "
         type="button"
         @click="SearchStops"
         v-if="!isStopListVisible"

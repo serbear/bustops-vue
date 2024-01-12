@@ -9,6 +9,7 @@ export const elementStyles = {
     inputBox: "text-bear-slate-900",
     searchButton: {
       hover: "hover:text-bear-slate-200",
+      disabled: "text-bear-yellow-800",
     },
   },
   background: {

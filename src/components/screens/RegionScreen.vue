@@ -12,6 +12,7 @@ const props = defineProps({
 });
 let regionName = ref(null);
 const availableRegionList = ref(null);
+const isSearchButtonDisabled = ref(true);
 
 function SearchRegion() {
   emit("regionNameChanged", regionName.value);
@@ -19,6 +20,7 @@ function SearchRegion() {
 
 function setRegionName(value) {
   regionName.value = value;
+  isSearchButtonDisabled.value = value === "" || value === null;
 }
 
 watch(regionName, async (value) => {
@@ -86,10 +88,15 @@ watch(regionName, async (value) => {
     <div class="grid grid-cols-1 gap-0">
       <button
         class="pr-5 font-bold font-lato text-base focus:outline-none h-14 w-full inline-flex items-center justify-center"
-        :class="[
-          elementStyles.background.searchButton.hover,
-          elementStyles.text.searchButton.hover,
-        ]"
+        :disabled="isSearchButtonDisabled"
+        :class="
+          isSearchButtonDisabled
+            ? [elementStyles.text.searchButton.disabled]
+            : [
+                elementStyles.background.searchButton.hover,
+                elementStyles.text.searchButton.hover,
+              ]
+        "
         type="button"
         @click="SearchRegion"
       >
