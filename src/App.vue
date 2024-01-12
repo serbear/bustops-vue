@@ -11,7 +11,6 @@ import {
   GetBusesForStopOfRegion,
 } from "@/services/db.js";
 import { ScreenNamesEnum } from "@/enums.js";
-import UserOptions from "@/components/screens/UserOptions.vue";
 import UserLocation from "@/components/UserLocation.vue";
 import { IsInScreenList } from "@/services/ui.js";
 
@@ -19,15 +18,12 @@ const ScreenVisibility = ref({
   Region: false,
   Stop: false,
   Bus: false,
-  UserOptions: false,
   UserLocation: true,
 });
-
-let regionName = ref(null);
-let busStopName = ref(null);
-let currentScreen = ref(ScreenNamesEnum.REGION);
+const regionName = ref(null);
+const busStopName = ref(null);
+const currentScreen = ref(ScreenNamesEnum.REGION);
 const openScreens = ref([ScreenNamesEnum.REGION]);
-
 const allRegionList = ref(null);
 const stopList = ref(null);
 const bussesList = ref(null);
@@ -59,6 +55,7 @@ function NavigateScreen(screenName) {
 
 function SearchStops(value) {
   regionName.value = value;
+
   // Find stops in the region.
   GetRegionStops(value).then((response) => (stopList.value = response));
   // Switch to the Stops Screen.
@@ -83,6 +80,7 @@ onMounted(() => {
     <div class="h-screen flex flex-col items-center bg-bear-slate-900">
       <div class="flex-1 w-96 bg-bear-red-500">
         <Header />
+
         <StepNavigation
           @navigation-button-clicked="NavigateScreen"
           :show-buttons="showNavigationButtons"
@@ -90,32 +88,31 @@ onMounted(() => {
           :current-screen="currentScreen"
         />
 
-        <UserLocation
-          v-if="ScreenVisibility.UserLocation"
-          @show-busses-pressed="SearchBuses"
-          @search-manually-pressed="NavigateScreen(ScreenNamesEnum.REGION)"
-        />
+        <div v-show="ScreenVisibility.UserLocation">
+          <UserLocation
+            @show-busses-pressed="SearchBuses"
+            @search-manually-pressed="NavigateScreen(ScreenNamesEnum.REGION)"
+          />
+        </div>
 
-        <UserOptions v-if="ScreenVisibility.UserOptions" />
+        <div v-show="ScreenVisibility.Region">
+          <RegionScreen
+            :regions="allRegionList"
+            @region-name-changed="SearchStops"
+          />
+        </div>
 
-        <RegionScreen
-          v-if="ScreenVisibility.Region"
-          :regions="allRegionList"
-          @region-name-changed="SearchStops"
-        />
+        <div v-show="ScreenVisibility.Stop">
+          <StopScreen
+            :regionName="regionName"
+            :stops="stopList"
+            @bus-stop-name-changed="SearchBuses"
+          />
+        </div>
 
-        <StopScreen
-          v-if="ScreenVisibility.Stop"
-          :regionName="regionName"
-          :stops="stopList"
-          @bus-stop-name-changed="SearchBuses"
-        />
-
-        <BusScreen
-          v-if="ScreenVisibility.Bus"
-          :bus-stop-name="busStopName"
-          :busses="bussesList"
-        />
+        <div v-show="ScreenVisibility.Bus">
+          <BusScreen :bus-stop-name="busStopName" :busses="bussesList" />
+        </div>
       </div>
     </div>
   </main>

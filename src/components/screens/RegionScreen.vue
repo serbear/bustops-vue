@@ -58,7 +58,7 @@ watch(regionName, async (value) => {
       :class="[elementStyles.text.inputBox, elementStyles.background.inputBox]"
       data-dropdown-offset-distance="0"
       data-dropdown-placement="bottom"
-      data-dropdown-toggle="dropdownList"
+      data-dropdown-toggle="stop_area_dropdown"
       placeholder=""
       required
       type="text"

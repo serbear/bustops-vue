@@ -13,12 +13,12 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["busStopNameChanged"]);
-let stopName = ref(null);
+const stopName = ref(null);
 const availableStopList = ref(null);
-let stopList = ref(null);
-let isSpinner = ref(false);
-let isStopListVisible = ref(false);
-let isKeyUp = ref(false);
+const stopList = ref(null);
+const isSpinner = ref(false);
+const isStopListVisible = ref(false);
+const isKeyUp = ref(false);
 
 function SearchStops() {
   isSpinner.value = true;
@@ -86,7 +86,7 @@ watch(stopName, async (value) => {
       :class="[elementStyles.text.inputBox, elementStyles.background.inputBox]"
       data-dropdown-offset-distance="0"
       data-dropdown-placement="bottom"
-      data-dropdown-toggle="dropdownList"
+      data-dropdown-toggle="stop_name_dropdown"
       placeholder=""
       required
       type="text"

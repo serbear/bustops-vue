@@ -18,9 +18,10 @@ const opts = {
   ignoreClickOutsideClass: false,
 };
 const instanceOptions = {
-  id: "dropdownList",
+  id: `${props.listItemTextAttribute}_dropdown`,
   override: true,
 };
+const listId = ref(`${props.listItemTextAttribute}_dropdown`);
 
 let ddList = ref(null);
 
@@ -28,7 +29,7 @@ onMounted(() => {
   initDropdowns();
 
   ddList = new Dropdown(
-    document.getElementById("dropdownList"),
+    document.getElementById(listId.value),
     document.getElementById(props.inputBoxId),
     opts,
     instanceOptions,
@@ -43,7 +44,7 @@ function dropClicked(value) {
 
 <template>
   <div
-    id="dropdownList"
+    :id="listId"
     class="z-10 hidden rounded-none w-96 bg-white"
     :class="props.elementStyle.text.inputBox"
   >
