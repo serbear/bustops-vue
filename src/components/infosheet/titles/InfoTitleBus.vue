@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="grid grid-rows-2 gap-0 hover:cursor-pointer"
+    class="grid grid-rows-2 gap-0 hover:cursor-pointer py-1.5"
     :class="[
       props.elementStyle.text.description,
       props.elementStyle.background.screen,

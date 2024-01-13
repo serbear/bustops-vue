@@ -1,4 +1,6 @@
 <script setup>
+import IconMap from "@/components/icons/IconMap.vue";
+
 const props = defineProps({
   data: Object,
   rowIndex: Number,
@@ -19,16 +21,17 @@ function RowClickedAction(value) {
     ]"
     @click="RowClickedAction(props.data.stop_id)"
   >
-    <div class="grid grid-cols-5 gap-0">
-      <div class="px-3.5 font-roboto-slab text-sm font-bold">
+    <div class="flex py-1.5">
+      <div class="flex-none px-3.5 font-roboto-slab text-sm font-bold">
         <span class="text-xs">#</span> {{ props.rowIndex + 1 }}
       </div>
       <!--suppress JSUnresolvedReference -->
-      <div class="col-span-4 font-lato text-sm">
+      <div class="font-lato text-sm">
         {{ props.data.stop_desc === null ? "N/A" : props.data.stop_desc }}
       </div>
     </div>
-    <div class="px-3.5 font-lato text-sm">
+    <div class="px-3.5 font-lato text-xs">
+      <IconMap class="inline flex-none mb-0.5" />
       {{ props.data.stop_coordinates }}
     </div>
   </div>
